@@ -2,12 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CitasTallerController;
+use App\Http\Controllers\CitasClienteController;
 
 // Rutas por defecto que traía Laravel
-
-Route::get('/', function () {
-    return view('inicio');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -21,9 +19,42 @@ Route::middleware('auth')->group(function () {
 
 // Rutas creadas por mí
 
-/*Route::get('/inicio', function(){
-    return view('inicio');
-});*/
+// Nos llevan a página principal, sin sesión iniciada.
+Route::get('/', function(){
+    return view('index');
+});
+
+Route::get('/index', function(){
+    return view('index');
+});
+
+// Rutas deben estar protegidas por el middleware de autenticación para asegurarte de que solo usuarios autenticados puedan acceder
+Route::middleware(['auth'])->group(function () {
+    // Ruta para el taller
+    Route::get('/taller', [CitasTallerController::class, 'index'])->name('taller.index');
+
+    // Ruta para el cliente
+    Route::get('/cliente', [CitasClienteController::class, 'index'])->name('cliente.index');
+    
+    
+    
+    
+    Route::get('/cliente/create', [CitasClienteController::class, 'create'])->name('cliente_create');
+    
+    Route::get('/cliente/show', [CitasClienteController::class, 'show'])->name('cliente_show');
+    
+    
+    
+    
+    Route::get('/taller/show', [CitasTallerController::class, 'show'])->name('taller_show');
+    
+    Route::get('/taller/edit', [CitasTallerController::class, 'edit'])->name('taller_edit');
+});
+
+
+
+
+
 
 
 

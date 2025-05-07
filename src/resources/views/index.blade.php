@@ -1,11 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="alert alert-success" role="alert">
-        Has iniciado sesión correctamente.
-    </div>
 
+    <h1 class="text-center">Bienvenidos al taller de Andrés</h1>
     <div class="text-center">
         <img src="{{ asset('images/taller_logo.png') }}" alt="Taller mecánico" class="img-fluid" style="max-height: 400px;">
     </div>
+
 @endsection

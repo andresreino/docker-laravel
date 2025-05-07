@@ -46,4 +46,30 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Comprueba si tiene rol taller
+     * 
+     * @return boolean
+     */
+    public function isTaller() : bool
+    {
+        return $this->role === 'taller';
+    }
+
+    public static function roles() : array
+    {
+        return [
+            'taller' => 'Taller',
+            'cliente' => 'Cliente',
+        ];
+    }
+
+    /**
+     * Muestra las citas del cliente
+     */
+    public function citas()
+    {
+        return $this->hasMany(Cita::class);
+    }
 }
