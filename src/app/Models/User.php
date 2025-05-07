@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -44,5 +45,47 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Comprueba si tiene rol taller
+     * 
+     * @return boolean
+     */
+    public function isTaller() : bool
+    {
+        return $this->role === 'taller';
+    }
+
+    /**
+     * Contiene array de validación de campos
+     */
+    public static function rules($userId = null)
+    {
+        return [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $userId,
+            'password' => 'required|min:8',
+            'role' => 'required'
+        ];
+    }
+
+    /**
+     * Contiene array con los campos "role" que se pueden desempeñar
+     */
+    public static function roles() : array
+    {
+        return [
+            'taller' => 'Taller',
+            'cliente' => 'Cliente',
+        ];
+    }
+
+    /**
+     * Muestra las citas del cliente
+     */
+    public function citas()
+    {
+        return $this->hasMany(Cita::class);
     }
 }
