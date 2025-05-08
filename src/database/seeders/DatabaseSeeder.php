@@ -14,13 +14,21 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         //User::factory(10)->create();
-        /* Usuario creado al inicio para probar a entrar a login
+        
+        // Creamos dos usuarios con roles distintos y contraseñas para acceder al sistema
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => 'abc123.'
+            'name' => 'Taller Andrés',
+            'email' => 'taller@example.com',
+            'password' => 'taller',
+            'role' => 'taller'
         ]);
-        */
+
+        User::factory()->create([
+            'name' => 'Andrés Reino',
+            'email' => 'andres@example.com',
+            'password' => 'andres',
+            'role' => 'cliente'
+        ]);
 
         $this->call([
             UserSeeder::class, // Llama al Seeder de Usuario
