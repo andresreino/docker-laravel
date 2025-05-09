@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cita;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class CitasTallerController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $citas = Cita::all();
+        $users = User::all();
         $roles = User::roles();
-        return view();
+        return view('users.index', compact('users', 'roles'));
     }
+
+    
 
     /**
      * Show the form for creating a new resource.
