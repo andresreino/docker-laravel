@@ -15,7 +15,7 @@ class CitasTallerController extends Controller
     {
         $citas = Cita::all();
         $roles = User::roles();
-        return view();
+        return view('citas.index', compact('citas', 'roles'));
     }
 
     /**
