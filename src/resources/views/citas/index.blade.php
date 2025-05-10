@@ -4,7 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Citas') }}
             </h2>
-            <a href="{{ route('users.create') }}" class="btn btn-outline-primary px-2 py-1 rounded-md">
+            <a href="{{ route('citas.create') }}" class="btn btn-outline-primary px-2 py-1 rounded-md">
                 {{ __('Nueva cita') }}
             </a>
         </div>

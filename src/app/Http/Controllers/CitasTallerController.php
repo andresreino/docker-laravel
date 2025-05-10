@@ -14,16 +14,22 @@ class CitasTallerController extends Controller
     public function index()
     {
         $citas = Cita::all();
-        $roles = User::roles();
-        return view('citas.index', compact('citas', 'roles'));
+        return view('citas.index', compact('citas'));
     }
+    
+    public function pendientes()
+    {
+        $citas = Cita::whereNull('fecha')->get();
+        return view('citas.index', compact('citas'));
+    }
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view('citas.create');
     }
 
     /**
@@ -31,38 +37,55 @@ class CitasTallerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(Cita::rules()); 
+        Cita::create([
+            'cliente_id' => $request->cliente_id,
+            'marca' => $request->marca,
+            'modelo' => $request->modelo,
+            'matricula' => $request->matricula,
+            'fecha' => $request->fecha,
+            'hora' => $request->hora,
+            'duracion_estimada' => $request->duracion_estimada
+        ]);
+
+        return redirect()->route('citas.index')->with('success', 'Cita creada correctamente');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Cita $cita)
     {
-        //
+        return view('citas.show', compact('cita'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Cita $cita)
     {
-        //
+        return view('citas.edit', compact('cita'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Cita $cita)
     {
-        //
+        $rules = Cita::rules();
+        $request->validate($rules);
+        $cita->update($request->all());
+
+        return redirect()->route('citas.index')->with('success', 'Cita actualizada correctamente');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Cita $cita)
     {
-        //
+        $cita->delete();
+
+        return redirect()->route('citas.index')->with('success', 'Cita eliminada correctamente');
     }
 }
