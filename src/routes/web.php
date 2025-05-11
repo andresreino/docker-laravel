@@ -4,6 +4,7 @@ use App\Http\Controllers\CitasClienteController;
 use App\Http\Controllers\CitasTallerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\ClienteMiddleware;
 use App\Http\Middleware\TallerMiddleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/citas/clientes', [CitasClienteController::class, 'index'])->name('citas.clientes.index');
     Route::get('/citas/clientes/create', [CitasClienteController::class, 'create'])->name('citas.clientes.create');
     Route::post('/citas/clientes', [CitasClienteController::class, 'store'])->name('citas.clientes.store');
-    Route::get('/citas/clientes/{cita}', [CitasClienteController::class, 'show'])->name('citas.clientes.show');
+    // Aplica ClienteMiddleware a esta ruta para evitar que usuario no autenticado acceda a cita de otro cliente
+    Route::get('/citas/clientes/{cita}', [CitasClienteController::class, 'show'])->middleware(ClienteMiddleware::class)->name('citas.clientes.show');
     
     //### RUTAS DE TALLER ###
     // Crea de forma abreviada múltiples rutas: users.index, users.create, users.store... (las 7 por defecto)
@@ -34,11 +36,7 @@ Route::middleware('auth')->group(function () {
     // Este filtra las citas, seleccionando las que tienen la fecha NULL
     Route::get('/pendientes', [CitasTallerController::class, 'pendientes'])->middleware(TallerMiddleware::class)->name('citas.pendientes');
     
-
-
-
-
-    
+    // Vistas que ha creado Breeze por defecto    
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
