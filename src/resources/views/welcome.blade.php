@@ -60,7 +60,7 @@
 
                     <main>
                         <div class="text-center">
-                            <img src="{{ asset('images/taller_logo.png') }}" alt="Taller mecánico" class="img-fluid" style="max-height: 400px;">
+                            <img src="{{ asset('images/taller_logo.png') }}" alt="Taller mecánico" class="img-fluid mx-auto mb-4" style="max-height: 650px;">
                         </div>
                     </main>
 

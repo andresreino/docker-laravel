@@ -20,8 +20,10 @@ class ClienteMiddleware
         // Si en URL viene: localhost/citas/clientes/3 recoge ese 3 y obtiene el objeto
         $cita = $request->route('cita');
         
-        // Combrueba que la cita existe y el id de cliente coincide con el del usuario autenticado
-        if(!$cita || $cita->cliente_id !== Auth::user()->id){
+        // Comprueba que la cita existe y el id de cliente coincide con el del usuario autenticado
+        // Lo hace con método user() del modelo Cita (devuelve Usuario dueño de la cita) y se accede a su campo id
+        // También se puede haciendo $cita->cliente_id (accediendo al campo del objeto Cita directamente)
+        if(!$cita || $cita->user->id !== Auth::user()->id){
             abort(403, 'No tienes permiso para acceder a esta cita');
         }
         
