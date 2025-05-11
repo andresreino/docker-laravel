@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Crea una cita para un cliente
@@ -20,15 +21,27 @@ class Cita extends Model
      */
     public static function rules($userId = null)
     {
-        return [
-            'cliente_id' => 'required|exists:users,id',
-            'marca' => 'required',
-            'modelo' => 'required',
-            'matricula' => 'required|regex:/^[0-9]{4}[A-Z]{3}$/',
-            'fecha' => 'required|date',
-            'hora' => 'required|date_format:H:i',
-            'duracion_estimada' => 'required|integer|min:1'
-        ];
+        if(Auth::user()->role === "taller")
+        {
+            return [
+                'cliente_id' => 'required|exists:users,id',
+                'marca' => 'required',
+                'modelo' => 'required',
+                'matricula' => 'required|regex:/^[0-9]{4}[A-Z]{3}$/',
+                'fecha' => 'required|date',
+                'hora' => 'required|date_format:H:i',
+                'duracion_estimada' => 'required|integer|min:1'
+            ];
+        } 
+        else
+        {
+            return [
+                'cliente_id' => 'required|exists:users,id',
+                'marca' => 'required',
+                'modelo' => 'required',
+                'matricula' => 'required|regex:/^[0-9]{4}[A-Z]{3}$/'
+            ];
+        }
     }
 
     /**

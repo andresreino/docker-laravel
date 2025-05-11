@@ -40,11 +40,11 @@
                                         <td class="border border-gray-300 px-4 py-2 w-1/6 text-center">
                                             <div class="flex justify-center items-center gap-1">
                                                 <a href="{{ route('users.show', $user) }}" class="btn btn-sm btn-outline-primary" title="{{ __('Ver') }}">
-                                                    <i class="bi bi-eye-fill text-primary p-2 border rounded-circle"></i>
+                                                    <i class="bi bi-eye-fill"></i>
                                                 </a>
 
                                                 <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-outline-success" title="{{ __('Editar') }}">
-                                                    <i class="bi bi-pencil-fill text-success p-2 border rounded-circle"></i>
+                                                    <i class="bi bi-pencil-fill"></i>
                                                 </a>
 
                                                 <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline">
@@ -53,7 +53,7 @@
                                                     <button type="submit" class="btn btn-sm btn-outline-danger" 
                                                             title="{{ __('Eliminar') }}"
                                                             onclick="return confirm('¿Estás seguro?')">
-                                                        <i class="bi bi-trash-fill text-danger p-2 border rounded-circle"></i>
+                                                        <i class="bi bi-trash-fill"></i>
                                                     </button>
                                                 </form>
                                             </div>
