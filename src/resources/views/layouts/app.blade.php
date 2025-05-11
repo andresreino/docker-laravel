@@ -33,9 +33,25 @@
             @endisset
 
             <!-- Page Content -->
-            <main>
-                {{ $slot }}
+            <main class="relative">
+                <div class="absolute bottom-0 right-0 w-full h-full z-0 pointer-events-none"
+                    style="background-image: url('/images/taller_logo.png');
+                            background-size: 10%;
+                            background-repeat: repeat;
+                            opacity: 0.04;">
+                </div>
+
+                <div class="relative z-10">
+                    {{ $slot }}
+                </div>
             </main>
+
+            <footer >
+                <div class="alert alert-light" role="alert">
+                    <p class="text-center"> &copy; 2025 Andrés Reino Guerra </p>
+                </div>
+            </footer>
+
         </div>
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
