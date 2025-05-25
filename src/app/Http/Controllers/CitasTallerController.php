@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cita;
+use App\Models\Coche;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -29,7 +30,10 @@ class CitasTallerController extends Controller
      */
     public function create()
     {
-        return view('citas.create');
+        // Obtener todos los usuarios con rol 'cliente' para que el taller pueda elegirlos
+        // en el select de la vista create
+        $clientes = User::where('role', 'cliente')->get();
+        return view('citas.create', compact('clientes'));
     }
 
     /**
@@ -38,14 +42,19 @@ class CitasTallerController extends Controller
     public function store(Request $request)
     {
         $request->validate(Cita::rules()); 
+
+        $coche = Coche::findOrFail($request->coche_id);
+
         Cita::create([
             'cliente_id' => $request->cliente_id,
-            'marca' => $request->marca,
-            'modelo' => $request->modelo,
-            'matricula' => $request->matricula,
+            'marca' => $coche->marca,
+            'modelo' => $coche->modelo,
+            'matricula' => $coche->matricula,
             'fecha' => $request->fecha,
             'hora' => $request->hora,
-            'duracion_estimada' => $request->duracion_estimada
+            'duracion_estimada' => $request->duracion_estimada,
+            'coche_id' => $request->coche_id,
+
         ]);
 
         return redirect()->route('citas.index')->with('success', 'Cita creada correctamente');
@@ -64,7 +73,8 @@ class CitasTallerController extends Controller
      */
     public function edit(Cita $cita)
     {
-        return view('citas.edit', compact('cita'));
+        $clientes = User::where('role', 'cliente')->get();
+        return view('citas.edit', compact('cita', 'clientes'));
     }
 
     /**
@@ -74,7 +84,25 @@ class CitasTallerController extends Controller
     {
         $rules = Cita::rules();
         $request->validate($rules);
-        $cita->update($request->all());
+
+         // Actualizar campos de formulario
+        $cita->cliente_id = $request->cliente_id;
+        $cita->coche_id = $request->coche_id;
+        $cita->fecha = $request->fecha;
+        $cita->hora = $request->hora;
+        $cita->duracion_estimada = $request->duracion_estimada;
+
+        // Cargar datos del coche asociado y copiarlos a la cita
+        if ($request->coche_id) {
+            $coche = Coche::find($request->coche_id);
+            if ($coche) {
+                $cita->marca = $coche->marca;
+                $cita->modelo = $coche->modelo;
+                $cita->matricula = $coche->matricula;
+            }
+        }
+        // Actualizar todos los datos en la BD
+        $cita->save();
 
         return redirect()->route('citas.index')->with('success', 'Cita actualizada correctamente');
     }

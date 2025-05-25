@@ -17,51 +17,27 @@ class CitaSeeder extends Seeder
         // Crea instancia de librería Faker (generar datos falsos o aleatorios)
         $faker = Faker::create();
 
-        // Cita 1
-        Cita::create([
-            // Selecciona usuario con rol cliente, ordena aleatoriamente los filtrados (cliente),
-            // obtiene el primero de la lista que ha filtrado aleatoriamente y extrae su campo "id"
-            'cliente_id' => User::where('role', 'cliente')->inRandomOrder()->first()->id,
-            'marca' => 'Toyota',
-            'modelo' => 'Corolla',
-            // bothify() genera cadena aleatoria de números y letras (2352GCS). strtoupper para que sean mayúsc
-            'matricula' => strtoupper($faker->bothify('####???')),
-            'fecha' => null,
-            'hora' => null,
-            'duracion_estimada' => null,
-        ]);
-
-        // Cita 2
-        Cita::create([
-            'cliente_id' => User::where('role', 'cliente')->inRandomOrder()->first()->id,
-            'marca' => 'Ford',
-            'modelo' => 'Fiesta',
-            'matricula' => strtoupper($faker->bothify('####???')),
-            'fecha' => null,
-            'hora' => null,
-            'duracion_estimada' => null,
-        ]);
-
-        // Cita 3
-        Cita::create([
-            'cliente_id' => User::where('role', 'cliente')->inRandomOrder()->first()->id,
-            'marca' => 'BMW',
-            'modelo' => 'Serie 3',
-            'matricula' => strtoupper($faker->bothify('####???')),
-            'fecha' => null,
-            'hora' => null,
-            'duracion_estimada' => null,
-        ]);
-
-        // Cita 4
-        Cita::create([
-            'cliente_id' => User::where('role', 'cliente')->inRandomOrder()->first()->id,
-            'marca' => 'Audi',
-            'modelo' => 'A4',
-            'matricula' => strtoupper($faker->bothify('####???')),
-            'fecha' => null,
-            'hora' => null,
-            'duracion_estimada' => null,
-        ]);
+        // Crear varias citas (entre 1 y 2) para todos los clientes
+        foreach (User::where('role', 'cliente')->get() as $cliente) {
+            $numCitas = rand(1, 2); // Cada cliente tendrá 1 o 2 citas
+        
+            for ($i = 0; $i < $numCitas; $i++) {
+                // De entre los coches que tiene cliente elige uno al azar 
+                // Usa método "coches" definido en User para devolver todos los coches de un usuario
+                $coche = $cliente->coches()->inRandomOrder()->first();
+                if ($coche) {
+                    Cita::create([
+                        'cliente_id' => $cliente->id,
+                        'coche_id' => $coche->id,
+                        'marca' => $coche->marca,
+                        'modelo' => $coche->modelo,
+                        'matricula' => $coche->matricula,
+                        'fecha' => null,
+                        'hora' => null,
+                        'duracion_estimada' => null,
+                    ]);
+                }
+            }
+        } 
     }
 }

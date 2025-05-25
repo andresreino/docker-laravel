@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class, // Llama al Seeder de Usuario
+            CocheSeeder::class, // Llama al Seeder de Coche
             CitaSeeder::class,   // Llama al Seeder de Cita
         ]);
     }

@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+            'driver' => 'session', // Cambiar a 'session' para usar el mismo guard que 'web'
+            'provider' => 'users',
+            'hash' => false, // Esto no es necesario para sesiones
+    ],
     ],
 
     /*

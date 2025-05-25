@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CitasClienteController;
 use App\Http\Controllers\CitasTallerController;
+use App\Http\Controllers\CochesAPIController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\ClienteMiddleware;
@@ -36,6 +37,10 @@ Route::middleware('auth')->group(function () {
     // Este filtra las citas, seleccionando las que tienen la fecha NULL
     Route::get('/pendientes', [CitasTallerController::class, 'pendientes'])->middleware(TallerMiddleware::class)->name('citas.pendientes');
     
+    //### RUTA API COCHES (UD8) ###
+    // Ruta que usaremos para mostrar listado de coches de usuario y formulario para añadir Coche 
+    Route::get('/coches', [CochesAPIController::class, 'index'])->name('coches');
+
     // Vistas que ha creado Breeze por defecto    
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

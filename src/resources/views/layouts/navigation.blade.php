@@ -41,6 +41,12 @@
                             {{ __('Mis citas') }}
                         </x-nav-link>
                     </div>
+                <!-- Añadido para UD8, muestra entrada para ver coches del usuario-->
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('coches')" :active="request()->routeIs('coches')">
+                            {{ __('Mis coches') }}
+                        </x-nav-link>
+                    </div>
                 @endif
             </div>
 
@@ -120,6 +126,11 @@
             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                 <x-nav-link :href="route('citas.clientes.index')" :active="request()->routeIs('citas.clientes.index')">
                     {{ __('Mis citas') }}
+                </x-nav-link>
+        <!-- Añadido para UD8, muestra entrada para ver coches del usuario-->
+            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <x-nav-link :href="route('coches')" :active="request()->routeIs('coches')">
+                    {{ __('Mis coches') }}
                 </x-nav-link>
             </div>
         @endif

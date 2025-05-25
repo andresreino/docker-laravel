@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cita;
+use App\Models\Coche;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,7 +23,8 @@ class CitasClienteController extends Controller
      */
     public function create()
     {
-        return view('citas.clientes.create');
+        $coches = Auth::user()->coches;
+        return view('citas.clientes.create', compact('coches'));
     }
 
     /**
@@ -30,13 +32,21 @@ class CitasClienteController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(Cita::rules());
+        // En UD8 cambio lógica y sólo valido id del coche
+        // Marca, modelo y matrícula se validan al introducir un coche 
+        $request->validate([
+            'coche_id' => 'required|exists:coches,id',
+        ]);
+
+        // Buscar el coche
+        $coche = Coche::findOrFail($request->coche_id);
 
         Cita::create([
-            'cliente_id' => $request->cliente_id,
-            'marca' => $request->marca,
-            'modelo' => $request->modelo,
-            'matricula' => $request->matricula,
+            'cliente_id' => $coche->cliente_id, // O Auth::id()
+            'marca' => $coche->marca,
+            'modelo' => $coche->modelo,
+            'matricula' => $coche->matricula,
+            'coche_id' => $coche->id,
         ]);
 
         return redirect()->route('citas.clientes.index')->with('success', 'Cita creada correctamente');

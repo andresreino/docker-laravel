@@ -16,34 +16,26 @@
                 <div class="p-6 text-gray-900">
                     <form action="{{ route('citas.store') }}" method="POST">
                         @csrf
+                        <!-- Select de clientes -->
                         <div class="mb-4">
-                            <label for="cliente_id" class="block text-gray-700">{{ __('ID de cliente') }}</label>
-                            <input type="number" name="cliente_id" id="cliente_id" class="w-full border-gray-300 rounded-md shadow-sm" value="{{ old('cliente_id') }}" required>
-                            @error('cliente_id')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
+                            <label for="cliente_id" class="block text-gray-700">Cliente</label>
+                            <select id="cliente_id" name="cliente_id" class="w-full border-gray-300 rounded-md shadow-sm" value="{{ old('cliente_id') }}" required>
+                                <option value="">Selecciona un cliente</option>
+                                @foreach($clientes as $cliente)
+                                    <option value="{{ $cliente->id }}">{{ $cliente->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
+
+                        <!-- Select de coches (vacío al inicio) -->
                         <div class="mb-4">
-                            <label for="marca" class="block text-gray-700">{{ __('Marca') }}</label>
-                            <input type="text" name="marca" id="marca" class="w-full border-gray-300 rounded-md shadow-sm" value="{{ old('marca') }}" required>
-                            @error('marca')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
+                            <label for="coche_id">Coche</label>
+                            <select id="coche_id" name="coche_id" class="w-full border-gray-300 rounded-md shadow-sm" value="{{ old('coche_id') }}"required>
+                                <option value="">Selecciona un coche</option>
+                                <!-- Se rellenará con JS -->
+                            </select>
                         </div>
-                        <div class="mb-4">
-                            <label for="modelo" class="block text-gray-700">{{ __('Modelo') }}</label>
-                            <input type="text" name="modelo" id="modelo" class="w-full border-gray-300 rounded-md shadow-sm" value="{{ old('modelo') }}" required>
-                            @error('modelo')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="mb-4">
-                            <label for="matricula" class="block text-gray-700">{{ __('Matricula') }}</label>
-                            <input type="text" name="matricula" id="matricula" class="w-full border-gray-300 rounded-md shadow-sm" value="{{ old('matricula') }}" required>
-                            @error('matricula')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
+
                         <div class="mb-4">
                             <label for="fecha" class="block text-gray-700">{{ __('Fecha') }}</label>
                             <input type="date" name="fecha" id="fecha" class="w-full border-gray-300 rounded-md shadow-sm" value="{{ old('fecha') }}" required>
@@ -75,4 +67,6 @@
             </div>
         </div>
     </div>
+    <!-- Script para cargar en el segundo select los coches de usuario seleccionado en primer select-->
+    <script src="{{ asset('js/cargarCoches.js') }}"></script>
 </x-app-layout>

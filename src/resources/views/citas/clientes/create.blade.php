@@ -22,25 +22,15 @@
                                 <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         <div class="mb-4">
-                            <label for="marca" class="block text-gray-700">{{ __('Marca') }}</label>
-                            <input type="text" name="marca" id="marca" class="w-full border-gray-300 rounded-md shadow-sm" value="{{ old('marca') }}" required>
-                            @error('marca')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="mb-4">
-                            <label for="modelo" class="block text-gray-700">{{ __('Modelo') }}</label>
-                            <input type="text" name="modelo" id="modelo" class="w-full border-gray-300 rounded-md shadow-sm" value="{{ old('modelo') }}" required>
-                            @error('modelo')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="mb-4">
-                            <label for="matricula" class="block text-gray-700">{{ __('Matricula') }}</label>
-                            <input type="text" name="matricula" id="matricula" class="w-full border-gray-300 rounded-md shadow-sm" value="{{ old('matricula') }}" required>
-                            @error('matricula')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
+                            <label for="coche_id" class="block text-sm font-medium text-gray-700">Selecciona tu coche</label>
+                            <select id="coche_id" name="coche_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                                <option value="">-- Elige un coche --</option>
+                                @foreach ($coches as $coche)
+                                    <option value="{{ $coche->id }}">
+                                        {{ $coche->marca }} {{ $coche->modelo }} - {{ $coche->matricula }} 
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         
                         <button type="submit" class="btn btn-outline-primary px-4 py-2 rounded-md">

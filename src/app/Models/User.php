@@ -86,6 +86,16 @@ class User extends Authenticatable
      */
     public function citas()
     {
-        return $this->hasMany(Cita::class);
+        return $this->hasMany(Cita::class, 'cliente_id');
+    }
+    
+    /**
+     * Muestra los coches del cliente
+     */
+    public function coches()
+    {
+        // Hay que especificar que busque la columna cliente_id (yo le llamé así)
+        // ya que por defecto busca user_id (reconoce autom esta al ser clase User)
+        return $this->hasMany(Coche::class, 'cliente_id');
     }
 }
